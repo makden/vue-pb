@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-2">
+  <div class="col-md-2 box_input_label">
     <label for="brigada" class="form-label"><slot></slot></label>
     <input
       type="text"
@@ -48,6 +48,16 @@ export default {
 </script>
 
 <style scoped>
+.box_input_label {
+  position: relative;
+}
+
+.list_data {
+  position: absolute;
+  box-shadow: 2px 2px 5px #aaa;
+  width:100%;
+}
+
 .input_search {
   border: solid 1px #def;
   display: inline-block;
