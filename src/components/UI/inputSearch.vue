@@ -1,13 +1,13 @@
 <template>
   <div class="col-md-2 box_input_label">
-    <label for="brigada" class="form-label"><slot></slot></label>
+    <label :for="labforid" class="form-label"><slot></slot></label>
     <input
       type="text"
       class="form-control"
       @input="updateInput"
       :value="val"
       autocomplete="off"
-      id="brigada"
+      :id="labforid"
     />
     <ul class="list_data" v-if="displayListData">
       <li v-for="arrVal in arrVals" @click="selectItem">{{ arrVal }}</li>
@@ -16,8 +16,9 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid';
 export default {
-  name: 'inputs',
+  name: 'inputSearch',
   props: {
     datalist: Array,
   },
@@ -26,6 +27,7 @@ export default {
       arrVals: [],
       displayListData: true,
       val: '',
+      labforid: uuidv4(),
     };
   },
   methods: {
@@ -34,7 +36,7 @@ export default {
         this.arrVals = this.datalist.filter(function (book) {
           return book.indexOf(event.target.value) !== -1;
         });
-        this.displayListData = this.arrVals.length <= 10 ? true : false; // Покать подсказу когда мешьше или = 3
+        this.displayListData = this.arrVals.length <= 10 ? true : false; // Покать подсказу когда мешьше или = 10
         this.val = event.target.value;
       }
     },
@@ -55,7 +57,7 @@ export default {
 .list_data {
   position: absolute;
   box-shadow: 2px 2px 5px #aaa;
-  width:100%;
+  width: 100%;
 }
 
 .input_search {
@@ -77,6 +79,7 @@ ul.list_data {
   background-color: #fff;
   cursor: default;
   border-radius: 5px;
+  z-index: 1000;
 }
 
 ul.list_data li {

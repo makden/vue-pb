@@ -1,10 +1,13 @@
 <script>
-import inputs from './UI/inputs.vue';
+import inputSearch from './UI/inputSearch.vue';
+import inputNumber from './UI/inputNumber.vue';
 import radios from './UI/radios.vue';
+
 export default {
   components: {
-    inputs,
+    inputSearch,
     radios,
+    inputNumber,
   },
   data() {
     return {
@@ -12,21 +15,37 @@ export default {
       typeWorks: this.$store.state.typeWorks,
       numberBregade: '',
       typeWork: '',
-      value: 'dddf',
+      dataforsend: {
+        codeobject: null,
+        bregade: null,
+        typeWork: null,
+        compwork: 0,
+        typeEvent: null,
+      },
+      compwork: false,
     };
   },
   methods: {
     getNumberBregade(val) {
-      this.numberBregade = val;
+      this.dataforsend.bregade = val;
     },
     getTypeWork(val) {
-      this.typeWork = val;
+      this.dataforsend.typeWork = val;
+    },
+    getCodeObject(val) {
+      this.dataforsend.codeobject = val;
     },
     vars() {
-      console.log(this.numberBregade, this.typeWork);
+      console.log(this.dataforsend);
+    },
+    checkedRadioBtn(e) {
+      this.compwork = e.target.value == 'Завершение' ? true : false;
+      this.dataforsend.typeEvent = e.target.value;
     },
   },
 };
+
+
 </script>
 
 <template>
@@ -35,22 +54,30 @@ export default {
     style="background-color: #def"
     @submit.prevent="vars"
   >
-    <inputs @valueInput="getNumberBregade" :datalist="bregades"
-      >№ Бригады</inputs
+    <inputSearch @valueInput="getNumberBregade" :datalist="bregades"
+      >№ Бригады</inputSearch
     >
     <br />
-    <inputs>Код объекта</inputs>
+    <inputSearch @valueInput="getCodeObject">Код объекта</inputSearch>
     <br />
-    <inputs @valueInput="getTypeWork" :datalist="typeWorks">Вид работы</inputs>
+    <inputSearch @valueInput="getTypeWork" :datalist="typeWorks"
+      >Вид работы</inputSearch
+    >
     <br />
-    <radios :value="value">Выезд</radios>
-    <radios>Прибытие</radios>
-    <radios>Допуск</radios>
-    <radios>Начало</radios>
-    <radios>Завершение</radios>
-    <radios>Возвращение</radios>
-    <radios>Передислокация</radios>
-    <radios>Объект не готов</radios>
+    <radios val="Выезд" @checked="checkedRadioBtn">Выезд</radios>
+    <radios val="Прибытие" @checked="checkedRadioBtn">Прибытие</radios>
+    <radios val="Допуск" @checked="checkedRadioBtn">Допуск</radios>
+    <radios val="Начало" @checked="checkedRadioBtn">Начало</radios>
+    <radios val="Завершение" @checked="checkedRadioBtn">Завершение</radios>
+
+    <inputNumber val="" v-if="compwork" />
+    <radios val="Возвращение" @checked="checkedRadioBtn">Возвращение</radios>
+    <radios val="Передислокация" @checked="checkedRadioBtn"
+      >Передислокация</radios
+    >
+    <radios val="Объект не готов" @checked="checkedRadioBtn"
+      >Объект не готов</radios
+    >
     <hr />
     <button>Тест</button>
   </form>

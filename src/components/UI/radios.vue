@@ -4,23 +4,36 @@
       type="radio"
       name="status"
       class="btn-check"
-      id="{{randStr}}"
+      :id="labforid"
+      :value="val"
+      @click="$emit('checked', $event)"
       autocomplete="off"
     />
 
-    <label class="btn btn-outline-primary" for="{{randStr}}"
-      ><slot>{{ randStr }}</slot></label
-    >
+    <label class="btn btn-outline-primary" :for="labforid"><slot></slot></label>
   </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid';
 export default {
   name: 'radios',
   props: {
     val: String,
   },
-  methods: {},
+  data() {
+    return {
+      labforid: uuidv4(),
+    };
+  },
+  // mounted() {
+  //   // this.labforid = uuidv4();
+  // },
+  methods: {
+    checkedss() {
+      alert('wwww');
+    },
+  },
 };
 </script>
 
