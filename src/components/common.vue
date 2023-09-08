@@ -2,6 +2,7 @@
 import inputSearch from './UI/inputSearch.vue';
 import inputNumber from './UI/inputNumber.vue';
 import radios from './UI/radios.vue';
+import { TelegramWebAppContainer } from '@telegram-web-app/core';
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
         typeWork: null,
         compwork: 0,
         typeEvent: null,
+        tg: Object,
       },
       compwork: false,
     };
@@ -36,7 +38,10 @@ export default {
       this.dataforsend.codeobject = val;
     },
     vars() {
-      console.log(this.dataforsend);
+      const telegram = new TelegramWebAppContainer();
+      telegram.WebApp.ready();
+      telegram.expand();
+      telegram.sendData(JSON.stringify(this.dataforsend));
     },
     checkedRadioBtn(e) {
       this.compwork = e.target.value == 'Завершение' ? true : false;
@@ -44,8 +49,6 @@ export default {
     },
   },
 };
-
-
 </script>
 
 <template>
