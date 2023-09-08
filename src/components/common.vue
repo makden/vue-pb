@@ -21,8 +21,11 @@ export default {
         bregade: null,
         typeWork: null,
         compwork: 0,
+        lat: 0,
+        lng: 0,
+        cdate: new Date().toJSON().slice(0, 10),
+        ctime: new Date().toLocaleTimeString(),
         typeEvent: null,
-        tg: Object,
       },
       compwork: false,
     };
@@ -37,14 +40,30 @@ export default {
     getCodeObject(val) {
       this.dataforsend.codeobject = val;
     },
+    requestLocation() {
+      this.$getLocation()
+        .then((coordinates) => {
+          this.dataforsend.lat = coordinates.lat;
+          this.dataforsend.lng = coordinates.lng;
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
     vars() {
       const telegram = new TelegramWebAppContainer();
       telegram.WebApp.ready();
-      telegram.expand();
-      telegram.sendData(JSON.stringify(this.dataforsend));
+      //);
+      //alert('df');
+      //telegram.WebApp.MainButton.show();
+      //telegram.WebApp.MainButton.text = 'Отправить данные!'; //изменяем текст кнопк
+      //telegram.WebApp.expand();
+      console.log(JSON.stringify(this.dataforsend));
+      telegram.WebApp.sendData(JSON.stringify(this.dataforsend));
     },
     checkedRadioBtn(e) {
       this.compwork = e.target.value == 'Завершение' ? true : false;
+      //(
       this.dataforsend.typeEvent = e.target.value;
     },
   },
@@ -54,7 +73,7 @@ export default {
 <template>
   <form
     class="shadow-sm p-3 mb-5"
-    style="background-color: #def"
+    style="background-color: #d9e9f9"
     @submit.prevent="vars"
   >
     <inputSearch @valueInput="getNumberBregade" :datalist="bregades"
@@ -68,10 +87,16 @@ export default {
     >
     <br />
     <radios val="Выезд" @checked="checkedRadioBtn">Выезд</radios>
-    <radios val="Прибытие" @checked="checkedRadioBtn">Прибытие</radios>
+    <radios val="Прибытие" @checked="checkedRadioBtn" @click="requestLocation"
+      >Прибытие</radios
+    >
     <radios val="Допуск" @checked="checkedRadioBtn">Допуск</radios>
-    <radios val="Начало" @checked="checkedRadioBtn">Начало</radios>
-    <radios val="Завершение" @checked="checkedRadioBtn">Завершение</radios>
+    <radios val="Начало" @checked="checkedRadioBtn" @click="requestLocation"
+      >Начало</radios
+    >
+    <radios val="Завершение" @checked="checkedRadioBtn" @click="requestLocation"
+      >Завершение</radios
+    >
 
     <inputNumber val="" v-if="compwork" />
     <radios val="Возвращение" @checked="checkedRadioBtn">Возвращение</radios>
@@ -81,8 +106,10 @@ export default {
     <radios val="Объект не готов" @checked="checkedRadioBtn"
       >Объект не готов</radios
     >
-    <hr />
-    <button>Тест</button>
+
+    <button style="width: 100%" class="btn mt-4 mb-3 btn-success">
+      Отправить данные
+    </button>
   </form>
 </template>
 
