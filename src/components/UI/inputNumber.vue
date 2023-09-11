@@ -5,6 +5,7 @@
       <input
         type="number"
         class="form-control"
+        @input="$emit('inputNum', $event)"
         aria-label="Amount (to the nearest dollar)"
       />
       <span class="input-group-text">шт. / км.</span>
@@ -18,11 +19,6 @@ export default {
   props: {},
   data() {
     return {};
-  },
-  methods: {
-    selectItem(e) {
-      this.$emit('valueInput', e.target.value);
-    },
   },
 };
 </script>

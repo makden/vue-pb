@@ -1,6 +1,7 @@
 <script>
 import inputSearch from './UI/inputSearch.vue';
 import inputNumber from './UI/inputNumber.vue';
+import inputDef from './UI/input-def.vue';
 import radios from './UI/radios.vue';
 import { TelegramWebAppContainer } from '@telegram-web-app/core';
 
@@ -9,13 +10,13 @@ export default {
     inputSearch,
     radios,
     inputNumber,
+    inputDef,
   },
   data() {
     return {
       bregades: this.$store.state.bregades,
       typeWorks: this.$store.state.typeWorks,
-      numberBregade: '',
-      typeWork: '',
+
       dataforsend: {
         codeobject: null,
         bregade: null,
@@ -37,9 +38,7 @@ export default {
     getTypeWork(val) {
       this.dataforsend.typeWork = val;
     },
-    getCodeObject(val) {
-      this.dataforsend.codeobject = val;
-    },
+
     requestLocation() {
       this.$getLocation()
         .then((coordinates) => {
@@ -53,18 +52,22 @@ export default {
     vars() {
       const telegram = new TelegramWebAppContainer();
       telegram.WebApp.ready();
-      //);
-      //alert('df');
       //telegram.WebApp.MainButton.show();
       //telegram.WebApp.MainButton.text = 'Отправить данные!'; //изменяем текст кнопк
-      //telegram.WebApp.expand();
+      telegram.WebApp.expand();
       console.log(JSON.stringify(this.dataforsend));
       telegram.WebApp.sendData(JSON.stringify(this.dataforsend));
     },
     checkedRadioBtn(e) {
       this.compwork = e.target.value == 'Завершение' ? true : false;
-      //(
       this.dataforsend.typeEvent = e.target.value;
+    },
+    inputVal(e) {
+      this.dataforsend.codeobject = e.target.value;
+    },
+    inputNum(e) {
+      this.dataforsend.compwork = e.target.value;
+    
     },
   },
 };
@@ -79,8 +82,9 @@ export default {
     <inputSearch @valueInput="getNumberBregade" :datalist="bregades"
       >№ Бригады</inputSearch
     >
+
     <br />
-    <inputSearch @valueInput="getCodeObject">Код объекта</inputSearch>
+    <inputDef @inputVal="inputVal">Код объекта</inputDef>
     <br />
     <inputSearch @valueInput="getTypeWork" :datalist="typeWorks"
       >Вид работы</inputSearch
@@ -98,7 +102,7 @@ export default {
       >Завершение</radios
     >
 
-    <inputNumber val="" v-if="compwork" />
+    <inputNumber @inputNum="inputNum" v-if="compwork" />
     <radios val="Возвращение" @checked="checkedRadioBtn">Возвращение</radios>
     <radios val="Передислокация" @checked="checkedRadioBtn"
       >Передислокация</radios
