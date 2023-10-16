@@ -80,7 +80,7 @@ export default {
     @submit.prevent="vars"
   >
     <inputSearch @valueInput="getNumberBregade" :datalist="bregades"
-      >№ Бригады!</inputSearch
+      >№ Бригады!!</inputSearch
     >
 
     <br />
