@@ -57,6 +57,7 @@ export default {
       //telegram.WebApp.MainButton.text = 'Отправить данные!'; //изменяем текст кнопк
       telegram.WebApp.expand();
       console.log(JSON.stringify(this.dataforsend));
+      alert(this.dataforsend.codeobject);
       telegram.WebApp.sendData(JSON.stringify(this.dataforsend));
     },
     checkedRadioBtn(e) {
