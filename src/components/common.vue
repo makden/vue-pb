@@ -52,6 +52,7 @@ export default {
     vars() {
       const telegram = new TelegramWebAppContainer();
       telegram.WebApp.ready();
+      alert(JSON.stringify(this.dataforsend));
       //telegram.WebApp.MainButton.show();
       //telegram.WebApp.MainButton.text = 'Отправить данные!'; //изменяем текст кнопк
       telegram.WebApp.expand();
@@ -67,7 +68,6 @@ export default {
     },
     inputNum(e) {
       this.dataforsend.compwork = e.target.value;
-    
     },
   },
 };
