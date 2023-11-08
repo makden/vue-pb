@@ -1,3 +1,1 @@
-export const typework_db = [
-  'Анализ и оценка эффективности ГТМ',
-];
+export const typework_db = ['111', '2222', '3333333', '444444444'];
